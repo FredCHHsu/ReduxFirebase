@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
-import { createPost } from '../actions/index';
+import { createPost } from '../../actions/index';
 import { Link } from 'react-router';
 
 class PostsNew extends Component {
@@ -23,14 +23,15 @@ class PostsNew extends Component {
         <h1>Create New Post</h1>
         <div>
           <label>Title</label>
-          <input type="text" {...title} />
+          <input className="form-control" type="text" {...title} />
         </div>
         <div>
           <label>Content</label>
-          <input type="text" {...content} />
+          <input className="form-control" type="text" {...content} />
         </div>
-        <button><Link to="/" >Cancel</Link></button>
-        <button type="submit">Submit</button>
+        <br />
+        <Link to="/" className="btn btn-default">Cancel</Link>
+        <button className="btn btn-primary" type="submit">Submit</button>
       </form>
     );
   }

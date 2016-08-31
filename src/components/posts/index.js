@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import { fetchPosts, deletePost } from '../actions/index';
+import { fetchPosts, deletePost } from '../../actions/index';
 
 
 class PostsIndex extends React.Component {
@@ -15,19 +15,26 @@ class PostsIndex extends React.Component {
     return (
       <div>
         <h1>Posts Index</h1>
-        <Link to="/posts/new">New Post</Link>
+        <Link className="btn btn-primary" to="/posts/new">New Post</Link>
         <hr />
         {this.props.posts ?
           (Object.keys(this.props.posts).map((key) => (
           this.props.posts[key] ?
             <div key={key}>
-              <h3>
+              <span>
                 <Link to={`/posts/${key}`} >
                   {this.props.posts[key].title}
                 </Link>
-              </h3>
-              <button onClick={() => this.props.deletePost(key)}>Delete</button>
-              <br />
+              </span>
+              <button
+                className="btn btn-sm btn-danger pull-right"
+                onClick={() => this.props.deletePost(key)}
+              >Delete</button>
+              <Link
+                to={`/posts/${key}/edit`}
+                className="btn btn-sm btn-success pull-right"
+              >Edit</Link>
+              <hr />
             </div> : null
         ))) : null}
       </div>

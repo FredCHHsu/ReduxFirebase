@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { fetchPost } from '../actions/index';
+import { fetchPost } from '../../actions/index';
 import { Link } from 'react-router';
 
 class PostShow extends React.Component {
@@ -12,7 +12,7 @@ class PostShow extends React.Component {
     return (
       <div>
         <div>
-          <Link to="/">Back to Post Index</Link>
+          <Link to="/" className="btn btn-default">Back to Post Index</Link>
         </div>
         {this.props.post ? (
           <div>
@@ -21,7 +21,7 @@ class PostShow extends React.Component {
           </div>
         ) : null}
         <div>
-          <Link to={`/posts/${this.props.params.id}/edit`}>Edit</Link>
+          <Link to={`/posts/${this.props.params.id}/edit`} className="btn btn-default">Edit</Link>
         </div>
       </div>
     );

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
-import { fetchPost, updatePost } from '../actions/index';
+import { fetchPost, updatePost } from '../../actions/index';
 import { Link } from 'react-router';
 
 class PostsEdit extends Component {
@@ -24,16 +24,17 @@ class PostsEdit extends Component {
     return (
       <form onSubmit={handleSubmit(this.onSubmit)}>
         <h1>Update Post</h1>
-        <div>
+        <div className="input-group">
           <label>Title</label>
-          <input type="text" {...title} />
+          <input className="form-control" type="text" {...title} />
         </div>
-        <div>
+        <div className="input-group">
           <label>Content</label>
-          <input type="text" {...content} />
+          <input className="form-control" type="text" {...content} />
         </div>
-        <button><Link to={`/posts/${this.props.params.id}`} >Cancel</Link></button>
-        <button type="submit">Submit</button>
+        <br />
+        <Link className="btn btn-default" to={`/posts/${this.props.params.id}`} >Cancel</Link>
+        <button className="btn btn-primary" type="submit">Submit</button>
       </form>
     );
   }
