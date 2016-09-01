@@ -1,7 +1,11 @@
 import firebase from 'firebase';
+import { browserHistory } from 'react-router';
 import {
   FETCH_POSTS,
   FETCH_POST,
+  AUTH_USER,
+  UNAUTH_USER,
+  AUTH_ERROR,
 } from './types';
 
 const firebaseConfig = {
@@ -27,6 +31,51 @@ const Posts = database.ref('/posts');
 //   updates[`/posts/${newPostKey}`] = postData;
 //   return database.ref().update(updates);
 // }
+// ======================================================
+
+export function checkAuthState() {
+  return dispatch => {
+    firebase.auth()
+      .onAuthStateChanged((user) => {
+        if (user) {
+          console.log('user: ', user);
+          dispatch({ type: AUTH_USER });
+        }
+      });
+  };
+}
+
+export function signinUser({ email, password }) {
+  return dispatch => {
+    firebase.auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(response => {
+        dispatch({ type: AUTH_USER });
+        console.log(response);
+        browserHistory.push('/');
+      })
+      .catch(error => {
+        // Handle Errors here.
+        // const errorCode = error.code;
+        // const errorMessage = error.message;
+        // ...
+        dispatch({ type: AUTH_ERROR, payload: error.message });
+      });
+  };
+}
+
+export function signoutUser() {
+  return dispatch => {
+    firebase.auth()
+      .signOut()
+      .then(() => {
+        dispatch({ type: UNAUTH_USER });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+}
 
 // ======================================================
 
@@ -61,7 +110,7 @@ export function deletePost(id) {
 }
 
 export function updatePost(id, post) {
-  return () => Posts.child(id).set(post);
+  return () => Posts.child(id).update(post);
 }
 
 
