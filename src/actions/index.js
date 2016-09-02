@@ -38,8 +38,9 @@ export function checkAuthState() {
     firebase.auth()
       .onAuthStateChanged((user) => {
         if (user) {
-          console.log('user: ', user);
-          dispatch({ type: AUTH_USER });
+          // console.log('user: ', user);
+          // console.log(firebase.auth().currentUser);
+          dispatch({ type: AUTH_USER, payload: user });
         }
       });
   };
@@ -49,9 +50,9 @@ export function signinUser({ email, password }) {
   return dispatch => {
     firebase.auth()
       .signInWithEmailAndPassword(email, password)
-      .then(response => {
-        dispatch({ type: AUTH_USER });
-        console.log(response);
+      .then(user => {
+        dispatch({ type: AUTH_USER, payload: user });
+        // console.log(user);
         browserHistory.push('/');
       })
       .catch(error => {

@@ -15,9 +15,12 @@ class PostsIndex extends React.Component {
     return (
       <div>
         <h1>Posts Index</h1>
-        <Link className="btn btn-primary" to="/posts/new">New Post</Link>
+        {this.props.currentUser ?
+          <Link className="btn btn-primary" to="/posts/new">New Post</Link>
+          : null
+        }
         <hr />
-        {this.props.posts ?
+        {this.props.currentUser && this.props.posts ?
           (Object.keys(this.props.posts).map((key) => (
           this.props.posts[key] ?
             <div key={key}>
@@ -26,14 +29,18 @@ class PostsIndex extends React.Component {
                   {this.props.posts[key].title}
                 </Link>
               </span>
-              <button
-                className="btn btn-sm btn-danger pull-right"
-                onClick={() => this.props.deletePost(key)}
-              >Delete</button>
-              <Link
-                to={`/posts/${key}/edit`}
-                className="btn btn-sm btn-success pull-right"
-              >Edit</Link>
+              {this.props.posts[key].user_id === this.props.currentUser.uid ?
+                <span className="pull-right">
+                  <Link
+                    to={`/posts/${key}/edit`}
+                    className="btn btn-sm btn-success"
+                  >Edit</Link>
+                  <button
+                    className="btn btn-sm btn-danger"
+                    onClick={() => this.props.deletePost(key)}
+                  >Delete</button>
+                </span> : null
+              }
               <hr />
             </div> : null
         ))) : null}
@@ -46,10 +53,14 @@ PostsIndex.propTypes = {
   fetchPosts: PropTypes.func.isRequired,
   deletePost: PropTypes.func,
   posts: PropTypes.object,
+  currentUser: PropTypes.object,
 };
 
 function mapStateToProps(state) {
-  return { posts: state.posts };
+  return {
+    posts: state.posts,
+    currentUser: state.auth.currentUser,
+  };
 }
 
 export default connect(mapStateToProps, { fetchPosts, deletePost })(PostsIndex);

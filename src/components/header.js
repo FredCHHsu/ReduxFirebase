@@ -15,7 +15,7 @@ class Header extends Component {
 
   renderLinks() {
     return (
-      this.props.authenticated ?
+      this.props.currentUser ?
         <li className="nav-item" key={1}>
           <Link className="nav-link" to="/signout">Sign Out</Link>
         </li> :
@@ -43,13 +43,13 @@ class Header extends Component {
 }
 
 Header.propTypes = {
-  authenticated: PropTypes.boolean,
+  currentUser: PropTypes.object,
   checkAuthState: PropTypes.func,
 };
 
 function mapStateToProps(state) {
   return {
-    authenticated: state.auth.authenticated,
+    currentUser: state.auth.currentUser,
   };
 }
 
