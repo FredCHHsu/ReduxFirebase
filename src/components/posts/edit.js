@@ -1,15 +1,19 @@
 import React, { Component, PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
 import { fetchPost, updatePost } from '../../actions/index';
-import { Link } from 'react-router';
 
 class PostsEdit extends Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
+    this.onCancel = this.onCancel.bind(this);
   }
   componentWillMount() {
     this.props.fetchPost(this.props.params.id);
+  }
+  onCancel(e) {
+    e.preventDefault();
+    this.context.router.goBack();
   }
   onSubmit(props) {
     this.props.updatePost(this.props.params.id, props)
@@ -33,7 +37,7 @@ class PostsEdit extends Component {
           <input className="form-control" type="text" {...content} />
         </div>
         <br />
-        <Link className="btn btn-default" to={`/posts/${this.props.params.id}`} >Cancel</Link>
+        <button className="btn btn-default" onClick={this.onCancel}>Cancel</button>
         <button className="btn btn-primary" type="submit">Submit</button>
       </form>
     );

@@ -1,16 +1,11 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import { checkAuthState } from '../actions/index';
 
 class Header extends Component {
   constructor(props) {
     super(props);
     this.renderLinks = this.renderLinks.bind(this);
-  }
-
-  componentWillMount() {
-    this.props.checkAuthState();
   }
 
   renderLinks() {
@@ -44,7 +39,6 @@ class Header extends Component {
 
 Header.propTypes = {
   currentUser: PropTypes.object,
-  checkAuthState: PropTypes.func,
 };
 
 function mapStateToProps(state) {
@@ -53,4 +47,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { checkAuthState })(Header);
+export default connect(mapStateToProps, null)(Header);

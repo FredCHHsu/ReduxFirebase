@@ -1,14 +1,25 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import Header from './header';
+import { connect } from 'react-redux';
+import { checkAuthState } from '../actions/index.js';
 
-const App = (props) =>
-  <div id="app">
-    <Header />
-    {props.children}
-  </div>;
+class App extends Component {
+  componentWillMount() {
+    this.props.checkAuthState();
+  }
+  render() {
+    return (
+      <div id="app">
+        <Header />
+        {this.props.children}
+      </div>
+    );
+  }
+}
 
 App.propTypes = {
   children: PropTypes.element.isRequired,
+  checkAuthState: PropTypes.func,
 };
 
-export default App;
+export default connect(null, { checkAuthState })(App);

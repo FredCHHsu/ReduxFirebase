@@ -20,7 +20,7 @@ class PostsIndex extends React.Component {
           : null
         }
         <hr />
-        {this.props.currentUser && this.props.posts ?
+        {this.props.posts ?
           (Object.keys(this.props.posts).map((key) => (
           this.props.posts[key] ?
             <div key={key}>
@@ -29,7 +29,8 @@ class PostsIndex extends React.Component {
                   {this.props.posts[key].title}
                 </Link>
               </span>
-              {this.props.posts[key].user_id === this.props.currentUser.uid ?
+              {this.props.currentUser ?
+                // && this.props.currentUser.uid === this.props.posts[key].user_id ?
                 <span className="pull-right">
                   <Link
                     to={`/posts/${key}/edit`}

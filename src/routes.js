@@ -6,6 +6,7 @@ import Signup from './components/auth/signup';
 import Signin from './components/auth/signin';
 import Signout from './components/auth/signout';
 
+import requireAuth from './components/auth/require_auth';
 import PostsIndex from './components/posts/index';
 import PostsNew from './components/posts/new';
 import PostEdit from './components/posts/edit';
@@ -17,8 +18,8 @@ export default (
     <Route path="/signin" component={Signin} />
     <Route path="/signup" component={Signup} />
     <Route path="/signout" component={Signout} />
-    <Route path="posts/new" component={PostsNew} />
-    <Route path="posts/:id/edit" component={PostEdit} />
+    <Route path="posts/new" component={requireAuth(PostsNew)} />
+    <Route path="posts/:id/edit" component={requireAuth(PostEdit)} />
     <Route path="posts/:id" component={PostShow} />
   </Route>
 );

@@ -20,9 +20,12 @@ class PostShow extends React.Component {
             <p>{this.props.post.content}</p>
           </div>
         ) : null}
-        <div>
-          <Link to={`/posts/${this.props.params.id}/edit`} className="btn btn-default">Edit</Link>
-        </div>
+        {this.props.currentUser ?
+          <div>
+            <Link to={`/posts/${this.props.params.id}/edit`} className="btn btn-default">Edit</Link>
+          </div>
+          : null
+        }
       </div>
     );
   }
@@ -32,11 +35,13 @@ PostShow.propTypes = {
   fetchPost: PropTypes.func.isRequired,
   params: PropTypes.object,
   post: PropTypes.object,
+  currentUser: PropTypes.object,
 };
 
 function mapStateToProps(state) {
   return {
     post: state.posts.post,
+    currentUser: state.auth.currentUser,
   };
 }
 
