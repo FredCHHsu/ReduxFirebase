@@ -14,13 +14,13 @@ import thunk from 'redux-thunk';
 import routes from './routes';
 import reducers from './reducers';
 
-const createStoreWithMiddleware = applyMiddleware(
-  promise,
-  thunk
-)(createStore);
+const store = createStore(
+  reducers,
+  applyMiddleware(promise, thunk)
+);
 
 ReactDOM.render(
-  <Provider store={createStoreWithMiddleware(reducers)}>
+  <Provider store={store}>
     <Router history={browserHistory} routes={routes} />
   </Provider>,
   document.querySelector('#app-entry-point')

@@ -6,6 +6,7 @@ import {
   AUTH_USER,
   UNAUTH_USER,
   AUTH_ERROR,
+  FETCH_USER,
 } from './types';
 
 const firebaseConfig = {
@@ -17,6 +18,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
 const Posts = database.ref('/posts');
+const Users = database.ref('/users');
 
 // function createPostOnDB(props) {
 //   // A post entry.
@@ -80,6 +82,19 @@ export function signoutUser() {
 
 // ======================================================
 
+export function fetchUser(id) {
+  return dispatch => {
+    Users.child(id).on('value', snapshot => {
+      dispatch({
+        type: FETCH_USER,
+        payload: snapshot.val(),
+      });
+    });
+  };
+}
+
+// ======================================================
+
 export function fetchPosts() {
   return dispatch => {
     Posts.on('value', snapshot => {
@@ -90,6 +105,13 @@ export function fetchPosts() {
     });
   };
 }
+// export function fetchPosts() { // return promise
+//   const request = Posts.once('value').then(snapshot => snapshot.val());
+//   return {
+//     type: FETCH_POSTS,
+//     payload: request,
+//   };
+// }
 
 export function fetchPost(id) {
   return dispatch => {
