@@ -2,6 +2,7 @@ import firebase from 'firebase';
 import { browserHistory } from 'react-router';
 import {
   FETCH_POSTS,
+  FETCH_POSTS_RT,
   FETCH_POST,
   AUTH_USER,
   UNAUTH_USER,
@@ -9,14 +10,7 @@ import {
   FETCH_USER,
 } from './types';
 
-const firebaseConfig = {
-  apiKey: 'AIzaSyCUNle_b8BkZ1xEyelSemjQVc4-HBVL4tE',
-  authDomain: 'test-c4b7f.firebaseapp.com',
-  databaseURL: 'https://test-c4b7f.firebaseio.com',
-  storageBucket: 'test-c4b7f.appspot.com',
-};
-firebase.initializeApp(firebaseConfig);
-const database = firebase.database();
+import database from '../firebaseConfig.js';
 const Posts = database.ref('/posts');
 const Users = database.ref('/users');
 
@@ -95,23 +89,20 @@ export function fetchUser(id) {
 
 // ======================================================
 
-export function fetchPosts() {
+export function fetchPostsRT() { // realtime database
   return dispatch => {
     Posts.on('value', snapshot => {
       dispatch({
-        type: FETCH_POSTS,
+        type: FETCH_POSTS_RT,
         payload: snapshot.val(),
       });
     });
   };
 }
-// export function fetchPosts() { // return promise
-//   const request = Posts.once('value').then(snapshot => snapshot.val());
-//   return {
-//     type: FETCH_POSTS,
-//     payload: request,
-//   };
-// }
+
+export function fetchPosts() {
+  return { type: FETCH_POSTS };
+}
 
 export function fetchPost(id) {
   return dispatch => {
